@@ -4,17 +4,19 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
+use App\Models\Blueprint;
 
 class BlueprintController extends Controller
 {
     public function index(): JsonResponse
     {
-        return response()->json(['message' => 'TODO']);
+        $blueprints = Blueprint::latest()->get();
+        return response()->json($blueprints);
     }
 
-    public function show(): JsonResponse
+    public function show(Blueprint $blueprint)
     {
-        return response()->json(['message' => 'TODO']);
+        return response()->json($blueprint);
     }
 
     public function store(): JsonResponse
