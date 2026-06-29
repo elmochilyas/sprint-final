@@ -5,12 +5,13 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use App\Models\Blueprint;
+use App\Models\User;
 
 class BlueprintController extends Controller
 {
     public function index(): JsonResponse
     {
-        $blueprints = Blueprint::latest()->get();
+        $blueprints = auth()->user()->blueprints()->latest()->get();
         return response()->json($blueprints);
     }
 
