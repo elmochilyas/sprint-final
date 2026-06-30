@@ -3,25 +3,32 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\JsonResponse;
+use App\Http\Requests\StoreBlueprintRequest;
+use App\Http\Resources\BlueprintResource;
 use App\Models\Blueprint;
-use App\Models\User;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class BlueprintController extends Controller
 {
-    public function index(): JsonResponse
+    public function index(): AnonymousResourceCollection
     {
         $blueprints = auth()->user()->blueprints()->latest()->get();
-        return response()->json($blueprints);
+
+        return BlueprintResource::collection($blueprints);
     }
 
-    public function show(Blueprint $blueprint)
+    public function show(Blueprint $blueprint): BlueprintResource
     {
-        return response()->json($blueprint);
+        return new BlueprintResource($blueprint);
     }
 
-    public function store(): JsonResponse
+    public function store(StoreBlueprintRequest $request): JsonResponse
     {
-        return response()->json(['message' => 'TODO']);
+        $blueprint = auth()->user()->blueprints()->create($request->validated());
+
+        return (new BlueprintResource($blueprint))
+            ->response()
+            ->setStatusCode(201);
     }
 }

@@ -21,6 +21,11 @@ class StoreBlueprintRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [];
+        return [
+            'nom' => ['required', 'string', 'max:100'],
+            'ton' => ['required', 'string', 'max:255'],
+            'max_hashtags' => ['required', 'integer', 'min:0', 'max:10'],
+            'max_caracteres' => ['required', 'integer', 'min:50', 'max:280'],
+        ];
     }
 }
