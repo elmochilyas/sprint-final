@@ -32,6 +32,11 @@ class User extends Authenticatable
         return $this->hasMany(Blueprint::class);
     }
 
+    public function rawContents(): HasMany
+    {
+        return $this->hasMany(RawContent::class);
+    }
+
     protected function casts(): array
     {
         return [
